@@ -8,14 +8,17 @@ namespace RockPaperScissors
 {
     class Program
     {
-        static Dictionary<string, IPlayer> AIPlayers = new Dictionary<string, IPlayer>()
+        public static Dictionary<string, IPlayer> AIPlayers = new Dictionary<string, IPlayer>()
         {
             // TODO:
             // Add AIs by filling in lines like the ones below
-            //{ "Random 1", new RandomAI() },
-            //{ "Random 2", new RandomAI() },
-            //{ "Other", new OtherAI() },
-            //{ "YetAnother", new YetAnotherAI() },
+            { "Random 1", new RandomAI() },
+            { "Stubborn 1", new StubbornAI(0) },
+
+            { "Short Attention Span 1", new ShortAttentionSpanAI() },
+
+           // { "Other", new OtherAI() },
+           // { "YetAnother", new YetAnotherAI() },
         };
 
         static void Main(string[] args)
@@ -26,25 +29,34 @@ namespace RockPaperScissors
                 Console.ReadKey();
                 Environment.Exit(0);
             }
-            while (true)
+            bool success = false;
+            while (!success)
             {
                 Console.WriteLine("\n1. Human vs AI");
                 Console.WriteLine("2. AI vs AI");
                 Console.WriteLine("3. Quit");
                 Console.Write("> ");
-                int choice = Convert.ToInt32(Console.ReadLine());
 
-                if (choice == 1)
+                try
                 {
-                    HumanVsAI();
+                    int choice = Convert.ToInt32(Console.ReadLine());
+
+                    if (choice == 1)
+                    {
+                        HumanVsAI();
+                    }
+                    else if (choice == 2)
+                    {
+                        AIVsAI();
+                    }
+                    else if (choice == 3)
+                    {
+                        break;
+                    }
                 }
-                else if (choice == 2)
+                catch (FormatException ex)
                 {
-                    AIVsAI();
-                }
-                else if (choice == 3)
-                {
-                    break;
+                    Console.WriteLine(ex);
                 }
             }
         }
@@ -104,10 +116,11 @@ namespace RockPaperScissors
 
             player1.SaveResult(p1Choice, p2Choice);
             player2.SaveResult(p2Choice, p1Choice);
+            
 
             return winner;
         }
-
+        
         static string SelectAI()
         {
             Console.WriteLine("Select an AI:");
