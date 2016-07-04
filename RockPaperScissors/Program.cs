@@ -26,10 +26,10 @@ namespace RockPaperScissors
         {
             // TODO:
             // Add AIs by filling in lines like the ones below
-            { "Random Bot 1", new RandomAI() },
-            { "Stubborn Bot", new StubbornAI(1) },
-            { "Short Attention Span Bot", new ShortAttentionSpanAI() },
-            { "Smart Bot", new Smart_Bot() },
+            { "RANDOM BOT", new RandomAI() },
+            { "STUBBORN BOT", new StubbornAI(1) },
+            { "SHORT ATTENTION SPAN BOT", new ShortAttentionSpanAI() },
+            { "SMART BOT", new Smart_Bot() },
         };
 
         static void Main(string[] args)
@@ -67,10 +67,12 @@ namespace RockPaperScissors
                     if (choice == 1)
                     {
                         HumanVsAI();
+                        validChoice = false;
                     }
                     else if (choice == 2)
                     {
                         AIVsAI();
+                        validChoice = false;
                     }
                     else if (choice == 3)
                     {
@@ -132,7 +134,7 @@ namespace RockPaperScissors
                 return -1;
             }
 
-            Console.WriteLine("{0}\t\t{1}", MoveToString(p1Choice), MoveToString(p2Choice));
+            Console.WriteLine("Player 1: {0}\t\tPlayer 2: {1}", MoveToString(p1Choice), MoveToString(p2Choice));
 
             int winner = CalculateWinner(p1Choice, p2Choice);
 
@@ -144,7 +146,7 @@ namespace RockPaperScissors
 
         static string SelectAI()
         {
-            Console.WriteLine("Select an AI:");
+            Console.WriteLine("\nSelect an AI:\n");
 
             // Show each of the possible opponents
             for (int i = 0; i < AIPlayers.Keys.Count; i++)
@@ -152,7 +154,7 @@ namespace RockPaperScissors
                 Console.WriteLine("{0}. {1}", i + 1, AIPlayers.Keys.ElementAt(i));
             }
 
-            Console.Write("> ");
+            Console.Write("\n> ");
             int aiChoice = Convert.ToInt32(Console.ReadLine());
             return AIPlayers.Keys.ElementAt(aiChoice - 1);
         }
@@ -197,11 +199,14 @@ namespace RockPaperScissors
 
         static void AIVsAI()
         {
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.WriteLine("BOT #1:");
+            Console.ResetColor();
             string chosenAI1 = SelectAI();
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.WriteLine("\nBOT #2:");
+            Console.ResetColor();
             string chosenAI2 = SelectAI();
-
-            Console.Write("How many games? ");
-            int numberOfGames = Convert.ToInt32(Console.ReadLine());
 
             int ai1Wins = 0;
             int ai2Wins = 0;
@@ -210,29 +215,46 @@ namespace RockPaperScissors
             IPlayer ai1 = AIPlayers[chosenAI1];
             IPlayer ai2 = AIPlayers[chosenAI2];
 
-            for (int i = 0; i < numberOfGames; i++)
+            while (true)
             {
-                int winner = RunGame(ai1, ai2);
-                if (winner == 1)
-                {
-                    ai1Wins++;
-                }
-                else if (winner == 2)
-                {
-                    ai2Wins++;
-                }
-                else if (winner == 0)
-                {
-                    ties++;
-                }
-
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("\n{0}: {1}      {2}: {3}      Ties: {4}\n", chosenAI1, ai1Wins, chosenAI2, ai2Wins, ties);
+                Console.ForegroundColor = ConsoleColor.DarkRed; 
+                Console.WriteLine("\n{0}    ▄▀▄▀▄▀ VS ▀▄▀▄▀▄    {1}", chosenAI1, chosenAI2);
                 Console.ResetColor();
+                Console.WriteLine("\nHow many matches?: ");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("(or press M for Main Menu)\n");
+                Console.ResetColor();
+                Console.Write(">");
+                string numberOfGamesString = Console.ReadLine().ToLower();
+
+                if (numberOfGamesString == "m")
+                {
+                    break;
+                }
+
+                int numberOfGames = Convert.ToInt32(numberOfGamesString); 
+
+                for (int i = 0; i < numberOfGames; i++)
+                {
+                    int winner = RunGame(ai1, ai2);
+                    if (winner == 1)
+                    {
+                        ai1Wins++;
+                    }
+                    else if (winner == 2)
+                    {
+                        ai2Wins++;
+                    }
+                    else if (winner == 0)
+                    {
+                        ties++;
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\n{0}: {1}      {2}: {3}      Ties: {4}\n", chosenAI1, ai1Wins, chosenAI2, ai2Wins, ties);
+                    Console.ResetColor();
+                }
             }
-            Console.ReadKey();
-
         }
-
     }
 }

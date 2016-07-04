@@ -12,7 +12,8 @@ namespace RockPaperScissors
         {
             while (true)
             {
-                Console.Write("Enter R, P, or S (Q to quit): ");
+                Console.WriteLine("Enter R (rock), P (paper), or S (scissors):  (M Main Menu)");
+                Console.Write("\n>");
                 string choice = Console.ReadLine().ToUpper();
                 if (choice == "R")
                 {
@@ -26,7 +27,7 @@ namespace RockPaperScissors
                 {
                     return 2;
                 }
-                if (choice == "Q")
+                if (choice == "M")
                 {
                     return -1;
                 }
