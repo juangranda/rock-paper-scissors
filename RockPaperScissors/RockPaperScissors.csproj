@@ -49,6 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomAI.cs" />
     <Compile Include="ShortAttentionSpanAI.cs" />
+    <Compile Include="Smart Bot.cs" />
     <Compile Include="StubbornAI.cs" />
   </ItemGroup>
   <ItemGroup>

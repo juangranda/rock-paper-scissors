@@ -8,17 +8,28 @@ namespace RockPaperScissors
 {
     class Program
     {
+        public static void graphic()
+        {
+           Console.Write(
+@"                               ___  ___  __   _    
+                              | |_)/ / \/ /` | |_/ 
+                              |_| \\_\_/\_\_,|_| \
+                             ___  __   ___  ____ ___  
+                            | |_)/ /\ | |_)| |_ | |_) 
+                            |_| /_/--\|_|  |_|__|_| \
+                     __   __    _   __   __   ___   ___   __  
+                    ( (` / /`  | | ( (` ( (` / / \ | |_) ( (` 
+                    _)_) \_\_, |_| _)_) _)_) \_\_/ |_| \ _)_) ");
+        }
+
         public static Dictionary<string, IPlayer> AIPlayers = new Dictionary<string, IPlayer>()
         {
             // TODO:
             // Add AIs by filling in lines like the ones below
-            { "Random 1", new RandomAI() },
-            { "Stubborn 1", new StubbornAI(0) },
-
-            { "Short Attention Span 1", new ShortAttentionSpanAI() },
-
-           // { "Other", new OtherAI() },
-           // { "YetAnother", new YetAnotherAI() },
+            { "Random Bot 1", new RandomAI() },
+            { "Stubborn Bot", new StubbornAI(1) },
+            { "Short Attention Span Bot", new ShortAttentionSpanAI() },
+            { "Smart Bot", new Smart_Bot() },
         };
 
         static void Main(string[] args)
@@ -29,18 +40,30 @@ namespace RockPaperScissors
                 Console.ReadKey();
                 Environment.Exit(0);
             }
-            bool success = false;
-            while (!success)
+            bool validChoice = false;
+            while (!validChoice)
             {
-                Console.WriteLine("\n1. Human vs AI");
-                Console.WriteLine("2. AI vs AI");
-                Console.WriteLine("3. Quit");
-                Console.Write("> ");
-
                 try
                 {
-                    int choice = Convert.ToInt32(Console.ReadLine());
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    graphic();
+                    Console.ResetColor();
+                    Console.WriteLine("\n\n\n\t\t\t\t1. HUMAN vs BOT");
+                    Console.WriteLine("\n\t\t\t\t2. BOT vs BOT");
+                    Console.WriteLine("\n\t\t\t\t3. QUIT");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("\n\t\t\tChoose a number from the menu");
+                    Console.ResetColor();
+                    Console.Write("\n\t\t\t\t> ");
 
+                    int choice = Convert.ToInt32(Console.ReadLine());
+                    validChoice = true;
+
+                    if (choice < 1 || choice > 3)
+                    {
+                        validChoice = false;
+                        Console.WriteLine("Please enter a number between 1 and 3");
+                    }
                     if (choice == 1)
                     {
                         HumanVsAI();
@@ -54,9 +77,9 @@ namespace RockPaperScissors
                         break;
                     }
                 }
-                catch (FormatException ex)
+                catch 
                 {
-                    Console.WriteLine(ex);
+                    Console.WriteLine("Please type in a number using the number keys");
                 }
             }
         }
@@ -65,22 +88,21 @@ namespace RockPaperScissors
         {
             if (choice == 0)
             {
-                return "Rock";
+                return "ROCK    ";
             }
             else if (choice == 1)
             {
-                return "Paper";
+                return "PAPER   ";
             }
             else if (choice == 2)
             {
-                return "Scissors";
+                return "SCISSORS";
             }
             else
             {
-                return "Unknown";
+                return "UNKNOWN";
             }
         }
-
 
         static int[,] winnerMatrix = 
         {  // R  P  S p1 // p2
@@ -110,17 +132,16 @@ namespace RockPaperScissors
                 return -1;
             }
 
-            Console.WriteLine("{0}\t{1}", MoveToString(p1Choice), MoveToString(p2Choice));
+            Console.WriteLine("{0}\t\t{1}", MoveToString(p1Choice), MoveToString(p2Choice));
 
             int winner = CalculateWinner(p1Choice, p2Choice);
 
             player1.SaveResult(p1Choice, p2Choice);
             player2.SaveResult(p2Choice, p1Choice);
-            
 
             return winner;
         }
-        
+
         static string SelectAI()
         {
             Console.WriteLine("Select an AI:");
@@ -168,7 +189,9 @@ namespace RockPaperScissors
                     ties++;
                 }
 
-                Console.WriteLine("\nHuman: {0}\tAI: {1}\tTies: {2}\n", humanWins, aiWins, ties);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\nHuman: {0}      AI: {1}      Ties: {2}\n", humanWins, aiWins, ties);
+                Console.ResetColor();
             }
         }
 
@@ -203,9 +226,12 @@ namespace RockPaperScissors
                     ties++;
                 }
 
-                Console.WriteLine("{0}: {1}\t{2}: {3}\tTies: {4}\n", chosenAI1, ai1Wins, chosenAI2, ai2Wins, ties);
-
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n{0}: {1}      {2}: {3}      Ties: {4}\n", chosenAI1, ai1Wins, chosenAI2, ai2Wins, ties);
+                Console.ResetColor();
             }
+            Console.ReadKey();
+
         }
 
     }

@@ -12,7 +12,6 @@ namespace RockPaperScissors
 
         public StubbornAI(int favoriteMove)
         {
-            FavoriteMove = favoriteMove;
         }
 
         public int NextMove()
@@ -22,7 +21,7 @@ namespace RockPaperScissors
 
         public void SaveResult(int myMove, int otherMove)
         {
-            myMove = FavoriteMove;
+            FavoriteMove = myMove;
         }
 
 
