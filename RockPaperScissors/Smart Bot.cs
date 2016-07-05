@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace RockPaperScissors
 {
-    class Smart_Bot : IPlayer
+    public class Smart_Bot : IPlayer
     {
         int smartBotNextMove;
-        List<int> Memory = new List<int>();
+        public static List<int> Memory = new List<int>();
 
         public int NextMove()
         {
@@ -19,7 +19,6 @@ namespace RockPaperScissors
         public void SaveResult(int myMove, int otherMove)
         {
             //keep track of all player 2's moves
-            //int rememberMyMove = myMove;
             Memory.Add(otherMove);
 
             int count0 = 0;
@@ -53,6 +52,12 @@ namespace RockPaperScissors
             if (myMove == 2 && otherMove == 0)
             {
                 smartBotNextMove = 1;
+            }
+
+            // Check for repetitive input from user
+            if (otherMove == (myMove -1))
+            {
+                smartBotNextMove = 0;
             }
 
             //Play based on player 2's history

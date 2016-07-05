@@ -39,7 +39,7 @@ namespace RockPaperScissors
                 }
 
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("I didn't understand that.\n");
+                Console.WriteLine(" * I didn't understand that.\n");
                 Console.ResetColor();
             }
         }

@@ -36,6 +36,7 @@ namespace RockPaperScissors
             bool validChoice = false;
             while (!validChoice)
             {
+                //Make sure user input is valid (Int)
                 try
                 {
                     //MAIN MENU
@@ -85,7 +86,10 @@ namespace RockPaperScissors
                 }
                 catch 
                 {
-                    Console.WriteLine("Please type in a number using the number keys");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\n * Please type in a number using the number keys");
+                    Console.ResetColor();
                 }
             }
         }
@@ -237,6 +241,9 @@ namespace RockPaperScissors
 
         static void AIVsAI()
         {
+            //Clear Smart Bot memory for new players.
+            Smart_Bot.Memory.Clear();
+            
             // show list of opponent options for Bot1
             Console.BackgroundColor = ConsoleColor.Red;
             Console.WriteLine("BOT #1:");
@@ -266,46 +273,56 @@ namespace RockPaperScissors
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write("{0}\n", chosenAI2);
                 Console.ResetColor();
-
-                //Enter # of matches
-                Console.WriteLine("\nHow many matches?: ");
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine("(or press M for Main Menu)\n");
-                Console.ResetColor();
-                Console.Write("> ");
-                string numberOfGamesString = Console.ReadLine().ToLower();
-                Console.WriteLine();
-
-                //Option to break loop and go back to Menu
-                if (numberOfGamesString == "m")
+                
+                //Make sure user input is valid. Must be an int for # of matches
+                try
                 {
-                    break;
-                }
-
-                int numberOfGames = Convert.ToInt32(numberOfGamesString); 
-
-                //run # of games entered and keep score
-                for (int i = 0; i < numberOfGames; i++)
-                {
-                    int winner = RunGame(ai1, ai2);
-                    if (winner == 1)
-                    {
-                        ai1Wins++;
-                    }
-                    else if (winner == 2)
-                    {
-                        ai2Wins++;
-                    }
-                    else if (winner == 0)
-                    {
-                        ties++;
-                    }
-
-                    //Print score
+                    //Enter # of matches
+                    Console.WriteLine("\nHow many matches?: ");
                     Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("\n{0}: {1}      {2}: {3}      Ties: {4}\n", chosenAI1, ai1Wins, chosenAI2, ai2Wins, ties);
+                    Console.WriteLine("(or press M for Main Menu)\n");
                     Console.ResetColor();
+                    Console.Write("> ");
+                    string numberOfGamesString = Console.ReadLine().ToLower();
+                    Console.WriteLine();
 
+                    //Option to break loop and go back to Menu
+                    if (numberOfGamesString == "m")
+                    {
+                        break;
+                    }
+
+                    int numberOfGames = Convert.ToInt32(numberOfGamesString);
+
+                    //run # of games entered and keep score
+                    for (int i = 0; i < numberOfGames; i++)
+                    {
+                        int winner = RunGame(ai1, ai2);
+                        if (winner == 1)
+                        {
+                            ai1Wins++;
+                        }
+                        else if (winner == 2)
+                        {
+                            ai2Wins++;
+                        }
+                        else if (winner == 0)
+                        {
+                            ties++;
+                        }
+
+                        //Print score
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("\n{0}: {1}      {2}: {3}      Ties: {4}\n", chosenAI1, ai1Wins, chosenAI2, ai2Wins, ties);
+                        Console.ResetColor();
+
+                    }
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine(" * Please enter a number of matches using the number keys");
+                    Console.ResetColor();
                 }
             }
         }

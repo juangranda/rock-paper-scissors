@@ -25,8 +25,5 @@ namespace RockPaperScissors
         {
             FavoriteMove = myMove;
         }
-
-
-
     }
 }
