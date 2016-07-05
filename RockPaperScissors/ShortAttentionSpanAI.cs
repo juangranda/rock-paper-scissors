@@ -11,6 +11,7 @@ namespace RockPaperScissors
         int saveResultNextMove;
         public int NextMove()
         {
+            //Play the opposite of Player 2's last move
             if (saveResultNextMove == 0)
             {
                 return 1;

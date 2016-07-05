@@ -8,6 +8,7 @@ namespace RockPaperScissors
 {
     class RandomAI : IPlayer
     {
+        //Random play
         Random random = new Random();
         public int NextMove()
         {
@@ -16,7 +17,6 @@ namespace RockPaperScissors
 
         public void SaveResult(int myMove, int otherMove)
         {
-            //blank
         }
     }
 }

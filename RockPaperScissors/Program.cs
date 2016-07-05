@@ -8,7 +8,7 @@ namespace RockPaperScissors
 {
     class Program
     {
-        public static void graphic()
+        public static void graphic() // ASCII text art
         {
            Console.Write(
 @"                               ___  ___  __   _    
@@ -24,7 +24,6 @@ namespace RockPaperScissors
 
         public static Dictionary<string, IPlayer> AIPlayers = new Dictionary<string, IPlayer>()
         {
-            // TODO:
             // Add AIs by filling in lines like the ones below
             { "RANDOM BOT", new RandomAI() },
             { "STUBBORN BOT", new StubbornAI(1) },
@@ -34,17 +33,18 @@ namespace RockPaperScissors
 
         static void Main(string[] args)
         {
-            if (AIPlayers.Count < 1)
-            {
-                Console.WriteLine("No AI players exist!");
-                Console.ReadKey();
-                Environment.Exit(0);
-            }
+            //if (AIPlayers.Count < 1)
+            //{
+            //    Console.WriteLine("No AI players exist!");
+            //    Console.ReadKey();
+            //    Environment.Exit(0);
+            //}
             bool validChoice = false;
             while (!validChoice)
             {
                 try
                 {
+                    //MAIN MENU
                     Console.ForegroundColor = ConsoleColor.Red;
                     graphic();
                     Console.ResetColor();
@@ -53,12 +53,22 @@ namespace RockPaperScissors
                     Console.WriteLine("\n\t\t\t\t3. QUIT");
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine("\n\t\t\tChoose a number from the menu");
+
                     Console.ResetColor();
                     Console.Write("\n\t\t\t\t> ");
 
                     int choice = Convert.ToInt32(Console.ReadLine());
                     validChoice = true;
+                    Console.WriteLine();
 
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    string s = "===========================================================================";
+                    Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
+                    Console.WriteLine(s);
+                    Console.WriteLine();
+                    Console.ResetColor();
+
+                    //Execute menu choice
                     if (choice < 1 || choice > 3)
                     {
                         validChoice = false;
@@ -86,7 +96,7 @@ namespace RockPaperScissors
             }
         }
 
-        static string MoveToString(int choice)
+        static string MoveToString(int choice) //Convert int choice to: Rock || paper || Scissors
         {
             if (choice == 0)
             {
@@ -134,10 +144,18 @@ namespace RockPaperScissors
                 return -1;
             }
 
-            Console.WriteLine("Player 1: {0}\t\tPlayer 2: {1}", MoveToString(p1Choice), MoveToString(p2Choice));
+            // Print play
+            Console.ForegroundColor = ConsoleColor.Red;
+            //Console.Write("Player 1: {0}\t\tPlayer 2: {1}", MoveToString(p1Choice), MoveToString(p2Choice));
+            Console.Write("Player 1: {0}", MoveToString(p1Choice));
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("\tPlayer 2: {0}", MoveToString(p2Choice));
+            Console.WriteLine();
+            Console.ResetColor();
 
             int winner = CalculateWinner(p1Choice, p2Choice);
 
+            //pass result on to IPlayer Save Result()
             player1.SaveResult(p1Choice, p2Choice);
             player2.SaveResult(p2Choice, p1Choice);
 
@@ -166,9 +184,22 @@ namespace RockPaperScissors
             int aiWins = 0;
             int ties = 0;
 
-            string chosenAI = SelectAI();
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.WriteLine("YOU Vs");
+            Console.ResetColor();
+        
+            string chosenAI = SelectAI(); // show list of opponent options
 
-            Console.WriteLine("\nPlaying against {0}...\n", chosenAI);
+            //Banner: Player1 vs Player2
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("\n YOU");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("    ▄▀▄▀▄▀ VS ▀▄▀▄▀▄    ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("{0}\n", chosenAI);
+            Console.ResetColor();
+            Console.WriteLine();
+
             IPlayer ai = AIPlayers[chosenAI];
 
             while (true)
@@ -191,19 +222,24 @@ namespace RockPaperScissors
                     ties++;
                 }
 
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("\nHuman: {0}      AI: {1}      Ties: {2}\n", humanWins, aiWins, ties);
+                //Print score
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.WriteLine("\nYOU: {0}      AI: {1}      Ties: {2}\n", humanWins, aiWins, ties);
                 Console.ResetColor();
             }
         }
 
         static void AIVsAI()
         {
+            // show list of opponent options for Bot1
             Console.BackgroundColor = ConsoleColor.Red;
             Console.WriteLine("BOT #1:");
             Console.ResetColor();
             string chosenAI1 = SelectAI();
-            Console.BackgroundColor = ConsoleColor.Red;
+            
+            // show list of opponent options for Bot2
+            Console.BackgroundColor = ConsoleColor.Blue;
             Console.WriteLine("\nBOT #2:");
             Console.ResetColor();
             string chosenAI2 = SelectAI();
@@ -217,16 +253,25 @@ namespace RockPaperScissors
 
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed; 
-                Console.WriteLine("\n{0}    ▄▀▄▀▄▀ VS ▀▄▀▄▀▄    {1}", chosenAI1, chosenAI2);
+                //Banner: Player1 vs Player2
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\n {0}", chosenAI1);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.Write("    ▄▀▄▀▄▀ VS ▀▄▀▄▀▄    ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write("{0}\n", chosenAI2);
                 Console.ResetColor();
+
+                //Enter # of matches
                 Console.WriteLine("\nHow many matches?: ");
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine("(or press M for Main Menu)\n");
                 Console.ResetColor();
-                Console.Write(">");
+                Console.Write("> ");
                 string numberOfGamesString = Console.ReadLine().ToLower();
+                Console.WriteLine();
 
+                //Option to break loop and go back to Menu
                 if (numberOfGamesString == "m")
                 {
                     break;
@@ -234,6 +279,7 @@ namespace RockPaperScissors
 
                 int numberOfGames = Convert.ToInt32(numberOfGamesString); 
 
+                //run # of games entered and keep score
                 for (int i = 0; i < numberOfGames; i++)
                 {
                     int winner = RunGame(ai1, ai2);
@@ -250,7 +296,8 @@ namespace RockPaperScissors
                         ties++;
                     }
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    //Print score
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine("\n{0}: {1}      {2}: {3}      Ties: {4}\n", chosenAI1, ai1Wins, chosenAI2, ai2Wins, ties);
                     Console.ResetColor();
                 }

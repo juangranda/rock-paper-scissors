@@ -12,6 +12,8 @@ namespace RockPaperScissors
 
         public StubbornAI(int favoriteMove)
         {
+            //favoriteMove passed from Program
+            //     "       = 1 (Paper)
         }
 
         public int NextMove()

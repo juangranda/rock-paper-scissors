@@ -12,9 +12,15 @@ namespace RockPaperScissors
         {
             while (true)
             {
-                Console.WriteLine("Enter R (rock), P (paper), or S (scissors):  (M Main Menu)");
+                //Enter play
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Enter R (rock), P (paper), or S (scissors):\n(M - Main Menu)");
+                Console.ResetColor();
                 Console.Write("\n>");
                 string choice = Console.ReadLine().ToUpper();
+                Console.WriteLine();
+
+                //Convert play to int
                 if (choice == "R")
                 {
                     return 0;
@@ -35,7 +41,6 @@ namespace RockPaperScissors
             }
         }
 
-
         public int NextMove()
         {
             return getNextMove();
@@ -43,7 +48,6 @@ namespace RockPaperScissors
 
         public void SaveResult(int myMove, int otherMove)
         {
-            // do nothing
         }
     }
 }
