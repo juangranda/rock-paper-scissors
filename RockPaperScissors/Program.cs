@@ -33,12 +33,6 @@ namespace RockPaperScissors
 
         static void Main(string[] args)
         {
-            //if (AIPlayers.Count < 1)
-            //{
-            //    Console.WriteLine("No AI players exist!");
-            //    Console.ReadKey();
-            //    Environment.Exit(0);
-            //}
             bool validChoice = false;
             while (!validChoice)
             {
@@ -146,7 +140,6 @@ namespace RockPaperScissors
 
             // Print play
             Console.ForegroundColor = ConsoleColor.Red;
-            //Console.Write("Player 1: {0}\t\tPlayer 2: {1}", MoveToString(p1Choice), MoveToString(p2Choice));
             Console.Write("Player 1: {0}", MoveToString(p1Choice));
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("\tPlayer 2: {0}", MoveToString(p2Choice));
@@ -167,14 +160,26 @@ namespace RockPaperScissors
             Console.WriteLine("\nSelect an AI:\n");
 
             // Show each of the possible opponents
-            for (int i = 0; i < AIPlayers.Keys.Count; i++)
+            while (true)
             {
-                Console.WriteLine("{0}. {1}", i + 1, AIPlayers.Keys.ElementAt(i));
-            }
+                for (int i = 0; i < AIPlayers.Keys.Count; i++)
+                {
+                    Console.WriteLine("{0}. {1}", i + 1, AIPlayers.Keys.ElementAt(i));
+                }
 
-            Console.Write("\n> ");
-            int aiChoice = Convert.ToInt32(Console.ReadLine());
-            return AIPlayers.Keys.ElementAt(aiChoice - 1);
+                Console.Write("\n> ");
+                try
+                {
+                    int aiChoice = Convert.ToInt32(Console.ReadLine());
+                    return AIPlayers.Keys.ElementAt(aiChoice - 1);
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Please choose a number from the menu\n");
+                    Console.ResetColor();
+                }
+            }
         }
 
         static void HumanVsAI()
@@ -300,6 +305,7 @@ namespace RockPaperScissors
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine("\n{0}: {1}      {2}: {3}      Ties: {4}\n", chosenAI1, ai1Wins, chosenAI2, ai2Wins, ties);
                     Console.ResetColor();
+
                 }
             }
         }
